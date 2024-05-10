@@ -9,19 +9,24 @@ MYSQL_USER="sysq"
 MYSQL_PASSWORD="1234"
 MYSQL_DATABASE="bitcointracker"
 
-# Function to fetch and parse data from the API
+# Function to fetch and parse data from the CoinDesk API
 fetch_data() {
-    # Use curl to fetch the API response
+    # Use curl to fetch the CoinDesk API response
     API_RESPONSE=$(curl -s "$API_URL")
 
-    # Extract the current Bitcoin price in USD
-    CURRENT_PRICE=$(echo "$API_RESPONSE" | jq '.bpi.USD.rate_float')
+    # Check if the API response was successful
+    if [ $? -eq 0 ]; then
+        # Extract the current Bitcoin price in USD
+        CURRENT_PRICE=$(echo "$API_RESPONSE" | jq '.bpi.USD.rate_float')
 
-    # Extract the 24H low and high prices
-    LOW_24H=$(echo "$API_RESPONSE" | jq '.bpi.USD.rate_float' | awk '{print $1 * 0.95}')
-    HIGH_24H=$(echo "$API_RESPONSE" | jq '.bpi.USD.rate_float' | awk '{print $1 * 1.05}')
+        # Extract the 24H low and high prices
+        LOW_24H=$(echo "$API_RESPONSE" | jq '.bpi.USD.rate_float' | awk '{print $1 * 0.95}')
+        HIGH_24H=$(echo "$API_RESPONSE" | jq '.bpi.USD.rate_float' | awk '{print $1 * 1.05}')
 
-    insert_data "$CURRENT_PRICE" "$LOW_24H" "$HIGH_24H"
+        insert_data "$CURRENT_PRICE" "$LOW_24H" "$HIGH_24H"
+    else
+        handle_error "Failed to fetch Bitcoin price data"
+    fi
 }
 
 # Function to insert data into the MySQL database
@@ -47,4 +52,5 @@ trap 'handle_error $LINENO' ERR
 
 # Call the fetch_data function
 fetch_data
+
 
