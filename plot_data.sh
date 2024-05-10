@@ -6,7 +6,8 @@ MYSQL_PASSWORD="1234"
 MYSQL_DATABASE="bitcointracker"
 
 plot_bitcoin_price_changes() {
-    mysql -h "$MYSQL_HOST" -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE" -e "SELECT timestamp, current_price FROM bitcoin_prices ORDER BY timestamp;" | tail -n +2 > bitcoin_prices.dat
+    mysql -h "$MYSQL_HOST" -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE" -e "SELECT timestamp, 
+    current_price FROM bitcoin_prices ORDER BY timestamp;" | tail -n +2 > bitcoin_prices.dat
 
     gnuplot -p -e "
         set title 'Bitcoin Price Changes';
