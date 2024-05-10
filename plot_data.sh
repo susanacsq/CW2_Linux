@@ -1,4 +1,3 @@
-  GNU nano 5.4                                                                                 plot_data.sh                                                                                          
 #!/bin/bash
 
 MYSQL_HOST="localhost"
