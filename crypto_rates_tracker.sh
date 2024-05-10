@@ -61,9 +61,11 @@ CRYPTO_SYMBOL="$1"
     PREVIOUS_PRICE=$(mysql -s -N -h "$MYSQL_HOST" -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE" -e "SELECT current_price FROM cryptocurrency_rates WHERE crypto_symbol='$CRYPTO_SYMBOL'")
     PREVIOUS_TIMESTAMP=$(mysql -s -N -h "$MYSQL_HOST" -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE" -e "SELECT timestamp FROM cryptocurrency_rates WHERE crypto_symbol='$CRYPTO_SYMBOL'")
     # Update existing record with new price and timestamp
-    mysql -h "$MYSQL_HOST" -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE" -e "UPDATE cryptocurrency_rates SET current_price='$CURRENT_PRICE', timestamp=CURRENT_TIMESTAMP WHERE crypto_symbol='$CRYPTO_SYMBOL'"
+    mysql -h "$MYSQL_HOST" -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE" -e "UPDATE cryptocurrency_rates SET current_price='$CURRENT_PRICE', 
+    timestamp=CURRENT_TIMESTAMP WHERE crypto_symbol='$CRYPTO_SYMBOL'"
     # Log changes in historical table
-    mysql -h "$MYSQL_HOST" -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE" -e "INSERT INTO cryptocurrency_rates_history (crypto_id, previous_price, previous_timestamp) SELECT id, '$PREVIOUS_PRICE', '$PREVIOUS_TIMESTAMP' FROM crypt>
+    mysql -h "$MYSQL_HOST" -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE" -e "INSERT INTO cryptocurrency_rates_history (crypto_id, previous_price, previous_timestamp) SELECT id,
+    '$PREVIOUS_PRICE', '$PREVIOUS_TIMESTAMP' FROM crypt>
 }
 
 # Function to insert new record into the MySQL database
@@ -72,7 +74,8 @@ insert_new_record() {
     CRYPTO_SYMBOL="$2"
     CURRENT_PRICE="$3"
     # Insert new record
-    mysql -h "$MYSQL_HOST" -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE" -e "INSERT INTO cryptocurrency_rates (crypto_name, crypto_symbol, current_price, timestamp) VALUES ('$CRYPTO_NAME', '$CRYPTO_SYMBOL', '$CURRENT_PRICE', CUR>
+    mysql -h "$MYSQL_HOST" -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE" -e "INSERT INTO cryptocurrency_rates (crypto_name, crypto_symbol, current_price, timestamp)
+    VALUES ('$CRYPTO_NAME', '$CRYPTO_SYMBOL', '$CURRENT_PRICE', CUR>
 }
 
 # Function to handle errors
