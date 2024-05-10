@@ -1,3 +1,4 @@
+  GNU nano 5.4                                                                                                  bitcoin_tracker.sh                                                                                                            
 #!/bin/bash
 
 # Set the API endpoint URL
@@ -52,5 +53,6 @@ trap 'handle_error $LINENO' ERR
 
 # Call the fetch_data function
 fetch_data
+
 
 
